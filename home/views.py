@@ -1,10 +1,11 @@
 from rest_framework.views import APIView
-from accounts.models import User
-from rest_framework.views import APIView
 from .serializers import BookSerializer
 from  rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
 from .models import Book
 from django.db.models import Q
+from rest_framework.permissions import IsAuthenticated
+from usecases.reservition.reservition_usecase import ReservitionUsecase
+from rest_framework.response import Response
 
 
 class BooksListView(ListAPIView):
@@ -39,10 +40,21 @@ class BooksListView(ListAPIView):
 
 
 class BookEditView(RetrieveUpdateDestroyAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = BookSerializer
     queryset = Book.objects.all()
 
 
 class BookAddView(CreateAPIView):
+    permission_classes = [IsAuthenticated]
     serializer_class = BookSerializer
     queryset = Book.objects.all()
+
+
+class BookReservationView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        return  Response(
+            ReservitionUsecase(user=request.user, book=request.POST['book_id'], duration=request.POST['duration'])
+        )

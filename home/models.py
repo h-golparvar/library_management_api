@@ -1,5 +1,6 @@
 from django.db import models
 from accounts.models import User
+from django.utils import timezone
 
 
 class City(models.Model):
@@ -37,3 +38,31 @@ class Book (models.Model):
     def __str__(self):
         return f'{self.title} از {self.author.name}'
 
+
+    @property
+    def is_available(self):
+        #latest_reservation = self.reservations.latest('start_date')
+        try:
+            if not self.reservations.latest('start_date').is_finished:
+                return False
+        except:
+            return True
+
+
+class Reservation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reservations')
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='reservations')
+    start_date = models.DateTimeField(auto_now_add=True)
+    duration = models.PositiveIntegerField()
+    cost = models.PositiveIntegerField()
+
+
+    def __str__(self):
+        return f'{self.book} - {self.user}'
+
+
+    @property
+    def is_finished(self):
+        if self.start_date.date() + timezone.timedelta(days=self.duration) < timezone.now().date():
+            return True
+        return False

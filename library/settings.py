@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from django.utils.timezone import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,8 +82,12 @@ WSGI_APPLICATION = 'library.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'library',
+        'USER': 'postgres',
+        'PASSWORD': 'golparvar',
+        'HOST': 'localhost',  # Replace with your PostgreSQL server's address if necessary
+        'PORT': '',          # Leave empty to use the default PostgreSQL port (usually 5432)
     }
 }
 
@@ -141,4 +146,8 @@ REST_FRAMEWORK ={
     },
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 2
+}
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
 }
