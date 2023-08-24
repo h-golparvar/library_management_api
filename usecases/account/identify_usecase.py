@@ -1,8 +1,6 @@
-from repositories.otpcodes_repository import OtpValidator
+from usecases.account.otpcodes_usecase import OtpValidator
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.response import Response
-from accounts.otp_sender import OtpSender
-from rest_framework import status
+from usecases.account.otp_sender import OtpSender
 from django.shortcuts import get_object_or_404
 from accounts.models import User
 

@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from .models import MemebershiPlan
 from .serializers import OtpCodeSerializer, MemebershiPlanSerializer
 from rest_framework.response import Response
 from django.utils import timezone
@@ -9,6 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from usecases.account.identify_usecase import identify, TokenRevoker
 from accounts.serializers import OtpCodeSerializer
+from repositories.memebershiplan_repository import AllMemebershiPlans
 
 
 class IdentifyView(APIView):
@@ -19,7 +19,7 @@ class IdentifyView(APIView):
         if srz_data.is_valid():
             srz_data = srz_data.data
             return Response(identify(srz_data))
-        return srz_data.errors
+        return Response(srz_data.errors)
 
 
 class TokenRevoke(APIView):
@@ -30,10 +30,10 @@ class TokenRevoke(APIView):
 
 class MemebershiPlansListView(ListAPIView):
     serializer_class = MemebershiPlanSerializer
-    queryset = MemebershiPlan.objects.all()
+    queryset = AllMemebershiPlans()
 
 
-class ActiveMemebershiPlansView(APIView):
+class ActiveMemebershiPlanView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):

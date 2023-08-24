@@ -75,6 +75,11 @@ class OtpCode(models.Model):
         self.status = 'break'
         self.save()
 
+    def is_valid(self):
+        if self.status == 'pending' and self.created > timezone.now() - timezone.timedelta(minutes=5):
+            return True
+        else:
+            return False
 
 class MemebershiPlan(models.Model):
     title = models.CharField(max_length=100)

@@ -1,35 +1,18 @@
 from accounts.models import OtpCode
-from django.utils import timezone
 
 
-def CircuitBreaker(sender):
-    '''returns False if sender was not stabel'''
+def AllOtpCodes():
+    return OtpCode.objects.all()
 
-    sender_state = OtpCode.objects.filter(sender=sender, status='break',
-                                          created__gte=timezone.now() - timezone.timedelta(hours=5))
-
-    if sender_state.exists():
-        return False
-    return True
+def OtpBySender(sender):
+    return OtpCode.objects.filter(sender=sender)
 
 
-def OtpFailed(code):
-    failed_count = OtpCode.objects.filter(sender=code.sender, status='failed',
-                                          created__gte=timezone.now() - timezone.timedelta(hours=5)).count()
-    if failed_count >= 10:
-        code.set_break()
-    else:
-        code.success(success=False)
+def Get_By_phone_number(phone_number):
+    return OtpCode.objects.filter(phone_number=phone_number).latest('id')
 
 
-def OtpValidator(phone_number, recived_code):
-    '''returns True if the code is valid'''
-    try:
-        code = OtpCode.objects.filter(phone_number=phone_number).latest('id')
-    except:
-        return False
-    if code and code.code == recived_code and code.created > timezone.now() - timezone.timedelta(minutes=5)\
-            and code.status == 'pending':
-        code.success()
-        return True
-    return False
+def GenerateOtp(phone_number, sender):
+    code = random.randint(1000, 9999)
+    code = OtpCode.objects.create(phone_number=phone_number, code=code, sender=sender)
+    return code
