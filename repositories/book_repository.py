@@ -9,7 +9,7 @@ def GetBook(id):
     return get_object_or_404(Book, id=id)
 
 
-def GetBooks(query=None, max_price=None, min_price=None,author=None, genre=None, city=None):
+def GetBooks(query=None, max_price=None, min_price=None,author=None, genre=None, city=None, ordering=None):
     if query is not None:
         books = BookDocument.search().query('multi_match', query=query, fields=['title','description'])
     else:
@@ -27,6 +27,12 @@ def GetBooks(query=None, max_price=None, min_price=None,author=None, genre=None,
     if city is not None:
         query = Q('nested', path='author',query=Q('term', **{'author.city_id':city}))
         books = books.query(query)
+
+    if ordering == 'asc':
+        books = books.sort({'price' : {'order' : 'asc'}})
+    elif ordering == 'desc':
+        books = books.sort({'price' : {'order' : 'desc'}})
+
     data = []
     for book in books:
         data.append( {
@@ -39,6 +45,7 @@ def GetBooks(query=None, max_price=None, min_price=None,author=None, genre=None,
                     book.author[0]['id']
                 ]
                 })
+
     return books.to_queryset()
 
 

@@ -7,7 +7,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from usecases.reservition.reservition_usecase import ReservitionUsecase
 from rest_framework.response import Response
 from repositories.book_repository import GetBooks
-from usecases.books.books_usecase import BooksUsecase, AddBook, EditBook, DeleteBookUsecase
+from usecases.books.books_usecase import BooksUsecase, AddBookUsecase, EditBookUsecase, DeleteBookUsecase
 
 
 class BooksListView(ListAPIView):
@@ -21,7 +21,7 @@ class BookEditDeleteView(APIView):
     permission_classes = [IsAdminUser]
 
     def put(self, request, id):
-        return Response(EditBook(pk=id, data=request.data))
+        return Response(EditBookUsecase(pk=id, data=request.data))
 
     def delete(self,request, id):
         return Response(DeleteBookUsecase(id))
@@ -32,7 +32,7 @@ class BookAddView(APIView):
     permission_classes = [IsAdminUser]
 
     def post(self, request):
-        return Response(AddBook(request.POST))
+        return Response(AddBookUsecase(request.POST))
 
 
 class BookReservationView(APIView):
