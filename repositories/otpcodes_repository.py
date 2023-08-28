@@ -1,4 +1,5 @@
 from accounts.models import OtpCode
+from random import randint
 
 
 def AllOtpCodes():
@@ -13,6 +14,6 @@ def Get_By_phone_number(phone_number):
 
 
 def GenerateOtp(phone_number, sender):
-    code = random.randint(1000, 9999)
+    code = randint(1000, 9999)
     code = OtpCode.objects.create(phone_number=phone_number, code=code, sender=sender)
     return code

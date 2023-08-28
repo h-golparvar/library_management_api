@@ -148,14 +148,14 @@ REST_FRAMEWORK ={
     },
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 2
+
+}
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'elastic:uEbDHQODkBpBRDEUB=hk@localhost:9200'
+    },
 }
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
-}
-
-ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'localhost:9200'
-    },
 }

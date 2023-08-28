@@ -30,8 +30,8 @@ class Book (models.Model):
     description = models.TextField()
     author = models.ManyToManyField(Author,related_name='books')
     genre = models.ForeignKey(Genre, on_delete=models.CASCADE, related_name='books')
-    publication = models.DateTimeField()
-    shabak = models.IntegerField()
+    publication = models.DateTimeField(null=True, blank=True)
+    shabak = models.IntegerField(null=True, blank=True)
     price = models.PositiveIntegerField()
 
 
