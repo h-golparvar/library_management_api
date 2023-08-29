@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_elasticsearch_dsl_drf',
     'accounts.apps.AccountsConfig',
     'home.apps.HomeConfig',
+    'throttling.apps.ThrottlingConfig',
 
 
 ]
@@ -140,12 +141,6 @@ REST_FRAMEWORK ={
     'DEFAULT_AUTHENTICATION_CLASSES':(
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.ScopedRateThrottle',
-    ],
-    'DEFAULT_THROTTLE_RATES': {
-        'otp_hour_throttle': '10/h',
-    },
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 2
 

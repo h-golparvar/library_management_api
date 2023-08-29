@@ -33,6 +33,7 @@ class Book (models.Model):
     publication = models.DateTimeField(null=True, blank=True)
     shabak = models.IntegerField(null=True, blank=True)
     price = models.PositiveIntegerField()
+    version = models.PositiveIntegerField(default=1)
 
 
     def __str__(self):
@@ -66,3 +67,7 @@ class Reservation(models.Model):
         if self.start_date.date() + timezone.timedelta(days=self.duration) < timezone.now().date():
             return True
         return False
+
+    def save(self, *args, **kwargs):
+        self.book.version +=1
+        super().save(*args, **kwargs)

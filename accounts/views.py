@@ -9,17 +9,19 @@ from django.shortcuts import get_object_or_404
 from usecases.account.identify_usecase import identify, TokenRevoker
 from accounts.serializers import OtpCodeSerializer
 from repositories.memebershiplan_repository import AllMemebershiPlans
+from usecases.throttling.Throttling_usecase import ThrottlingUsecase, GetIP
 
 
 class IdentifyView(APIView):
-    throttle_scope = 'otp_hour_throttle'
-
     def post(self,request):
-        srz_data = OtpCodeSerializer(data=request.data)
-        if srz_data.is_valid():
-            srz_data = srz_data.data
-            return Response(identify(srz_data))
-        return Response(srz_data.errors)
+        if ThrottlingUsecase(GetIP(request), request.user.id, 'IdentifyView'):
+            srz_data = OtpCodeSerializer(data=request.data)
+            if srz_data.is_valid():
+                srz_data = srz_data.data
+                return Response(identify(srz_data))
+            return Response(srz_data.errors)
+        else:
+            return Response({'message':'throttled. try later'})
 
 
 class TokenRevoke(APIView):
