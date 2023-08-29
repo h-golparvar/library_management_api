@@ -1,12 +1,13 @@
 from home.models import Reservation
 
 
-def MakeReservation(user, book, duration, cost):
-    if book.is_available:
+def MakeReservation(user, book, duration, cost, version):
+    if book.version == version:
         Reservation.objects.create(user=user, book=book, duration=duration, cost=cost)
         return {'message': 'reserved successfully'}
     else:
-        return {'message': 'book is not available'}
+        return {'message': 'version mismatch'}
+
 
 
 def ReserviationFilter(book=None, user=None, ):

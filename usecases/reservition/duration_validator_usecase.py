@@ -3,7 +3,7 @@ from datetime import datetime
 from django.utils.dateparse import parse_date
 
 
-def DurationValidiator(user, duration):
+def DurationValidiatorUsecase(user, duration):
     if user.membership_validity_date:
         membership_validity = user.membership_validity_date.date() - date.today()
         if duration < membership_validity.days and duration <= 14:

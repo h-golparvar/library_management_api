@@ -2,7 +2,7 @@ from datetime import date
 from django.utils import timezone
 
 
-def CostCalculator(user, duration):
+def CostCalculatorUsecase(user, duration):
     try:
         if user.membership_validity_date.date() >= date.today():
             return 0
