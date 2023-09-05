@@ -6,9 +6,9 @@ from django.utils import timezone
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
-from usecases.account.identify_usecase import identify, TokenRevoker
+from usecases.account.identify_usecase import identify, token_revoker
 from accounts.serializers import OtpCodeSerializer
-from repositories.memebershiplan_repository import AllMemebershiPlans
+from repositories.memebershiplan_repository import all_memebershi_plans
 from usecases.throttling.Throttling_usecase import ThrottlingUsecase, GetIP
 
 
@@ -27,12 +27,12 @@ class IdentifyView(APIView):
 class TokenRevoke(APIView):
     def post(self, request):
         refresh_token = request.data.get('refresh_token')
-        return Response(TokenRevoker(refresh_token))
+        return Response(token_revoker(refresh_token))
 
 
 class MemebershiPlansListView(ListAPIView):
     serializer_class = MemebershiPlanSerializer
-    queryset = AllMemebershiPlans()
+    queryset = all_memebershi_plans()
 
 
 class ActiveMemebershiPlanView(APIView):

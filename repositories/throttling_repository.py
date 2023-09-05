@@ -2,7 +2,7 @@ from throttling.models import ThrottlingLog
 from django.utils import timezone
 
 
-def GetLogs(ip, user_id, period):
+def get_throttling_logs(ip, user_id, period):
     if period == 'hour':
         timedelta = timezone.timedelta(hours=1)
     elif period == 'min':
@@ -14,7 +14,7 @@ def GetLogs(ip, user_id, period):
         return ThrottlingLog.objects.filter(ip=ip, time__gt=timezone.now()-timedelta)
 
 
-def GetLastLog(ip, user_id):
+def get_last_user_throttling_log(ip, user_id):
     try:
         if user_id:
             return ThrottlingLog.objects.filter(user_id=user_id).latest('id')
@@ -24,9 +24,9 @@ def GetLastLog(ip, user_id):
         return None
 
 
-def AddLog(ip, user_id, caller):
+def add_throttling_log(ip, user_id, caller):
     ThrottlingLog.objects.create(
         ip=ip,
-        user_id = user_id,
-        caller = caller,
+        user_id=user_id,
+        caller=caller,
         )

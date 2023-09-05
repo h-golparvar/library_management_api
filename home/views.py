@@ -6,7 +6,7 @@ from django.db.models import Q
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from usecases.reservition.reservition_usecase import ReservitionUsecase
 from rest_framework.response import Response
-from repositories.book_repository import GetBooks
+from repositories.book_repository import get_books
 from usecases.books.books_usecase import BooksUsecase, AddBookUsecase, EditBookUsecase, DeleteBookUsecase
 
 

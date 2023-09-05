@@ -1,4 +1,4 @@
-from repositories.book_repository import GetBooks, AddBook, GetBook, DeleteBook
+from repositories.book_repository import get_books, add_book, get_book, delete_book
 from home.serializers import BookSerializer
 
 
@@ -11,7 +11,7 @@ def BooksUsecase(query_params):
     city = query_params.get('city')
     ordering = query_params.get('ordering')
 
-    queryset = GetBooks(
+    queryset = get_books(
         query=query, max_price=max_price, min_price=min_price, author=author, genre=genre, city=city, ordering=ordering
     )
     return queryset
@@ -27,7 +27,7 @@ def AddBookUsecase(data):
 
 
 def EditBookUsecase(pk, data):
-    book = GetBook(pk)
+    book = get_book(pk)
     srz_data = BookSerializer(data=data, instance=book, partial=True)
     if srz_data.is_valid():
         srz_data.save()
@@ -37,4 +37,4 @@ def EditBookUsecase(pk, data):
 
 
 def DeleteBookUsecase(id):
-    return DeleteBook(id)
+    return delete_book(id)

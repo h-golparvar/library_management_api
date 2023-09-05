@@ -88,9 +88,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'library',
         'USER': 'postgres',
-        'PASSWORD': 'golparvar',
+        'PASSWORD': 'tank',
         'HOST': 'localhost',  # Replace with your PostgreSQL server's address if necessary
-        'PORT': '',          # Leave empty to use the default PostgreSQL port (usually 5432)
+        'PORT': '5433',          # Leave empty to use the default PostgreSQL port (usually 5432)
     }
 }
 
@@ -154,3 +154,5 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
 }
+senders = ['kavenegar', 'signal']
+

@@ -5,11 +5,11 @@ from home.models import Book
 from django.shortcuts import get_object_or_404
 
 
-def GetBook(id):
+def get_book(id):
     return get_object_or_404(Book, id=id)
 
 
-def GetBooks(query=None, max_price=None, min_price=None,author=None, genre=None, city=None, ordering=None):
+def get_books(query=None, max_price=None, min_price=None, author=None, genre=None, city=None, ordering=None):
     if query is not None:
         books = BookDocument.search().query('multi_match', query=query, fields=['title','description'])
     else:
@@ -49,8 +49,8 @@ def GetBooks(query=None, max_price=None, min_price=None,author=None, genre=None,
     return books.to_queryset()
 
 
-def DeleteBook(id):
-    book = GetBook(id)
+def delete_book(id):
+    book = get_book(id)
     if book:
         book.delete()
         return {'message': 'book deleted'}
@@ -58,14 +58,14 @@ def DeleteBook(id):
         return {'message': 'book not found'}
 
 
-def AddBook(title, description, author, genre, price, publication=None, shabak=None):
+def add_book(title, description, author, genre, price, publication=None, shabak=None):
     book = Book.objects.create(
-        title = title,
-        description = description,
-        author = author,
-        genre = genre,
-        publication = publication,
-        shabak = shabak,
-        price = price)
+        title=title,
+        description=description,
+        author=author,
+        genre=genre,
+        publication=publication,
+        shabak=shabak,
+        price=price)
 
 

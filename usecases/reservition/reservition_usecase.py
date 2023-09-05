@@ -1,17 +1,17 @@
-from usecases.reservition.cost_usecase import CostCalculatorUsecase
-from usecases.reservition.duration_validator_usecase import DurationValidiatorUsecase
-from repositories.reservations_repository import MakeReservation
-from repositories.book_repository import GetBook
+from usecases.reservition.cost_usecase import cost_calculator_usecase
+from usecases.reservition.duration_validator_usecase import duration_validiator_usecase
+from repositories.reservations_repository import make_reservation
+from repositories.book_repository import get_book
 
 
 def ReservitionUsecase(user, book, duration):
-    book = GetBook(book)
+    book = get_book(book)
     if book.is_available:
         version = book.version
-        if DurationValidiatorUsecase(user, int(duration)) != 'vlaid':
+        if duration_validiator_usecase(user, int(duration)) != 'valid':
             return duration
-        cost = CostCalculatorUsecase(user, duration)
-        return MakeReservation(user, book, duration, cost, version)
+        cost = cost_calculator_usecase(user, duration)
+        return make_reservation(user, book, duration, cost, version)
     else:
         return {'message': 'book is not available'}
 

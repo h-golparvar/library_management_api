@@ -81,6 +81,9 @@ class OtpCode(models.Model):
         else:
             return False
 
+    def set_sender(self, sender):
+        self.sender == sender
+
 class MemebershiPlan(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()

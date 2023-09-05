@@ -1,5 +1,5 @@
 from accounts.models import MemebershiPlan
 
 
-def AllMemebershiPlans():
+def all_memebershi_plans():
     return MemebershiPlan.objects.all()
